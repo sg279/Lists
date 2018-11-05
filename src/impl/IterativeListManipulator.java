@@ -145,20 +145,18 @@ public class IterativeListManipulator implements IListManipulator {
 
     @Override
     public boolean containsDuplicates(ListNode head) {
-        boolean containsDuplicates = false;
         ListNode current = head;
         Set<Object> elements = new HashSet<>();
         while (current!=null){
             if (elements.contains(current.element)){
-                containsDuplicates=true;
-                break;
+                return true;
             }
             else{
                 elements.add(current.element);
                 current=current.next;
             }
         }
-        return containsDuplicates;
+        return false;
     }
 
     @Override

@@ -1,9 +1,6 @@
 package impl;
 
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import common.InvalidIndexException;
 import common.ListNode;
@@ -152,22 +149,6 @@ public class RecursiveListManipulator implements IListManipulator {
             head1.next=append(head1.next,head2);
         }
         return head1;
-
-        /*if (head1==null){
-            return head2;
-        }
-        ListNode current = head1.next;
-        if (current==null){
-            head1.next=head2;
-            return head1;
-        }
-        if (current.next==null){
-            current.next=head2;
-            return head1;
-        }
-        else{
-            return append(current.next,head2);
-        }*/
     }
 
     @Override
@@ -188,13 +169,44 @@ public class RecursiveListManipulator implements IListManipulator {
 
     @Override
     public boolean isCircular(ListNode head) {
-        // TODO Auto-generated method stub
-        return false;
+        if (head==null){
+            return false;
+        }
+        Set<ListNode> visited = new HashSet<>();
+        ListNode start = head;
+        return circular(start, head.next, visited);
+    }
+
+    private boolean circular(ListNode start, ListNode head, Set visited){
+        if (head==null||visited.contains(head)){
+            return false;
+        }
+        else if(head==start){
+            return true;
+        }
+        else{
+            visited.add(head);
+            return circular(start, head.next, visited);
+        }
     }
 
     @Override
     public boolean containsCycles(ListNode head) {
-        return false;
+        Set visited = new HashSet();
+        return cycle(head, visited);
+    }
+
+    private boolean cycle(ListNode head, Set visited){
+        if (head==null){
+            return false;
+        }
+        else if(visited.contains(head)){
+            return true;
+        }
+        else{
+            visited.add(head);
+            return cycle(head.next, visited);
+        }
     }
 
     @Override
@@ -205,45 +217,18 @@ public class RecursiveListManipulator implements IListManipulator {
                 return head;
             }
             else{
-                /*ListNode list2 = get(head,size/2);
-                ListNode list1 = get(head,(size/2)-1);*/
-                ListNode split = head;
-                int index = 0;
-                while(index<(size/2)-1){
-                    split=split.next;
-                    index++;
-                }
-                ListNode list2 = split.next;
-                split.next = null;
-                ListNode list1 = head;
+                ListNode list2 = get(head,size/2);
+                ListNode list1 = get(head,(size/2)-1);
+                list1.next = null;
+                list1 = head;
                 list1 = sort(list1, comparator);
                 list2 = sort(list2, comparator);
-                ListNode joined= new ListNode(1);
-                ListNode current = joined;
-                while(list1!=null&&list2!=null){
-                    if (comparator.compare(list1.element, list2.element)<0){
-                        current.next=list1;
-                        list1=list1.next;
-                    }
-                    else{
-                        current.next=list2;
-                        list2=list2.next;
-                    }
-                    current= current.next;
-                }
-                if (list1==null){
-                    current.next=list2;
-                }
-                else{
-                    current.next = list1;
-                }
-                return joined.next;
-                //return merge(list1, list2, comparator);
+                return merge(list1, list2, comparator);
             }
 
     }
 
-    /*private ListNode get(ListNode head, int n){
+    private ListNode get(ListNode head, int n){
 
         if (head==null||n<0){
             return null;
@@ -254,9 +239,9 @@ public class RecursiveListManipulator implements IListManipulator {
         else{
             return get(head.next,n-1);
         }
-    }*/
+    }
 
-    /*private ListNode merge(ListNode list1, ListNode list2, Comparator comparator){
+    private ListNode merge(ListNode list1, ListNode list2, Comparator comparator){
         ListNode joined= new ListNode(1);
         ListNode current = joined;
         while(list1!=null&&list2!=null){
@@ -278,7 +263,7 @@ public class RecursiveListManipulator implements IListManipulator {
         }
         return joined.next;
 
-    }*/
+    }
 
     @Override
     public ListNode map(ListNode head, ITransformation transformation) {
