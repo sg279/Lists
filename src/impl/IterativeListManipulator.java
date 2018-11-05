@@ -181,7 +181,8 @@ public class IterativeListManipulator implements IListManipulator {
 
             if(current.element instanceof ListNode){
                 ListNode temp = current.next;
-                current = (ListNode) current.element;
+                current.next = ((ListNode) current.element).next;
+                current.element = ((ListNode) current.element).element;
                 current = append(current,temp);
 
             }
@@ -227,7 +228,27 @@ public class IterativeListManipulator implements IListManipulator {
 
     @Override
     public ListNode sort(ListNode head, Comparator comparator) {
-        return null;
+        if (head==null){
+            return null;
+        }
+        boolean swapsMade=true;
+        ListNode current = head;
+        while (swapsMade){
+            if(current.next==null){
+                swapsMade = false;
+            }
+            else if (comparator.compare(current.element,current.next.element)>0){
+                Object temp = current.element;
+                current.element=current.next.element;
+                current.next.element=temp;
+                swapsMade=true;
+                current=head;
+            }
+            else{
+                current=current.next;
+            }
+        }
+        return head;
     }
 
     @Override

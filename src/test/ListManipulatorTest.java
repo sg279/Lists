@@ -197,9 +197,9 @@ public abstract class ListManipulatorTest {
         assertTrue(manipulator.deepEquals(list1, manipulator.append(list1, null)));
         assertTrue(manipulator.deepEquals(list1, manipulator.append(null, list1)));
 
-        ListNode first = new ListNode(element1, new ListNode(element2));
-        ListNode second = new ListNode(element3, new ListNode(element4));
-        ListNode expected = new ListNode(element1, new ListNode(element2, new ListNode(element3, new ListNode(element4))));
+        ListNode first = new ListNode(element1, new ListNode(element2, new ListNode(11, new ListNode(44))));
+        ListNode second = new ListNode(element3, new ListNode(element4, new ListNode(2, new ListNode(9))));
+        ListNode expected = new ListNode(element1, new ListNode(element2, new ListNode(11, new ListNode(44, new ListNode(element3, new ListNode(element4, new ListNode(2, new ListNode(9))))))));
 
         assertTrue(manipulator.deepEquals(expected, manipulator.append(first, second)));
     }
@@ -334,11 +334,11 @@ public abstract class ListManipulatorTest {
 
         ListNode list_a = new ListNode(3);
         ListNode list_b = new ListNode(3, new ListNode(-2));
-        ListNode list_c = new ListNode(3, new ListNode(-2, new ListNode(-14)));
+        ListNode list_c = new ListNode(3, new ListNode(-2, new ListNode(-14, new ListNode(7, new ListNode(1, new ListNode(18))))));
 
         assertTrue(manipulator.deepEquals(list_a, manipulator.sort(list_a, int_comparator)));
         assertTrue(manipulator.deepEquals(new ListNode(-2, new ListNode(3)), manipulator.sort(list_b, int_comparator)));
-        assertTrue(manipulator.deepEquals(new ListNode(-14, new ListNode(-2, new ListNode(3))), manipulator.sort(list_c, int_comparator)));
+        assertTrue(manipulator.deepEquals(new ListNode(-14, new ListNode(-2, new ListNode(1, new ListNode(3, new ListNode(7, new ListNode(18)))))), manipulator.sort(list_c, int_comparator)));
     }
 
     /**
