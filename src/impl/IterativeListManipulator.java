@@ -230,20 +230,18 @@ public class IterativeListManipulator implements IListManipulator {
             return null;
         }
         boolean swapsMade=true;
-        ListNode current = head;
+
         while (swapsMade){
-            if(current.next==null){
-                swapsMade = false;
-            }
-            else if (comparator.compare(current.element,current.next.element)>0){
-                Object temp = current.element;
-                current.element=current.next.element;
-                current.next.element=temp;
-                swapsMade=true;
-                current=head;
-            }
-            else{
-                current=current.next;
+            swapsMade=false;
+            ListNode current = head;
+            while (current.next!=null) {
+                if (comparator.compare(current.element, current.next.element) > 0) {
+                    Object temp = current.element;
+                    current.element = current.next.element;
+                    current.next.element = temp;
+                    swapsMade = true;
+                }
+                current = current.next;
             }
         }
         return head;

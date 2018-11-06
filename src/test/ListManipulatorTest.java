@@ -334,11 +334,11 @@ public abstract class ListManipulatorTest {
 
         ListNode list_a = new ListNode(3);
         ListNode list_b = new ListNode(3, new ListNode(-2));
-        ListNode list_c = new ListNode(3, new ListNode(-2, new ListNode(-14, new ListNode(7, new ListNode(1, new ListNode(18))))));
+        ListNode list_c = new ListNode(3, new ListNode(-2, new ListNode(-14, new ListNode(7, new ListNode(1, new ListNode(5))))));
 
         assertTrue(manipulator.deepEquals(list_a, manipulator.sort(list_a, int_comparator)));
         assertTrue(manipulator.deepEquals(new ListNode(-2, new ListNode(3)), manipulator.sort(list_b, int_comparator)));
-        assertTrue(manipulator.deepEquals(new ListNode(-14, new ListNode(-2, new ListNode(1, new ListNode(3, new ListNode(7, new ListNode(18)))))), manipulator.sort(list_c, int_comparator)));
+        assertTrue(manipulator.deepEquals(new ListNode(-14, new ListNode(-2, new ListNode(1, new ListNode(3, new ListNode(5, new ListNode(7)))))), manipulator.sort(list_c, int_comparator)));
     }
 
     /**
