@@ -96,16 +96,11 @@ public class IterativeListManipulator implements IListManipulator {
             throw new InvalidIndexException();
         }
         int index = 0;
-        try{
-            while(index<location){
-                current=current.next;
-                index++;
-            }
-            return current.element;
+        while(index<location){
+            current=current.next;
+            index++;
         }
-        catch (NullPointerException e){
-            throw new InvalidIndexException();
-        }
+        return current.element;
     }
 
     @Override
