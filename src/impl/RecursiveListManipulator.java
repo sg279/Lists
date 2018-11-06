@@ -83,7 +83,7 @@ public class RecursiveListManipulator implements IListManipulator {
     @Override
     public Object getFromBack(ListNode head, int n) throws InvalidIndexException {
         int index = size(head)-n-1;
-        if (head==null||index<0){
+        if (index<0){
             throw new InvalidIndexException();
         }
         else if (index==0){
