@@ -60,6 +60,7 @@ public class IterativeListManipulator implements IListManipulator {
         ListNode current = head;
         while (current!=null){
             list+=current.element.toString();
+            //Don't add the comma if the node is the last one
             if(current.next!=null){
                 list+=",";
             }
@@ -162,13 +163,15 @@ public class IterativeListManipulator implements IListManipulator {
     public ListNode flatten(ListNode head) {
         ListNode current = head;
         while(current!=null){
-
+            //Check if the element is the start of the node list
             if(current.element instanceof ListNode){
+                //Temporary pointer to the next node
                 ListNode temp = current.next;
+                //Cast the current element to a list node and set the current node's element and next pointer to the element's properties
                 current.next = ((ListNode) current.element).next;
                 current.element = ((ListNode) current.element).element;
+                //Add the temporary pointer to the end of the new list
                 current = append(current,temp);
-
             }
             current=current.next;
         }
@@ -178,15 +181,18 @@ public class IterativeListManipulator implements IListManipulator {
     @Override
     public boolean isCircular(ListNode head) {
         ListNode current = head;
+        //The pointer to the head of the visited node list
         ListNode visitedHead = new ListNode(head);
         ListNode visited = visitedHead;
         while(current!=null){
             if(current.next==head){
                 return true;
             }
+            //Return false if the list contains cycles but isn't circular
             if(contains(visitedHead, current.next)){
                 return false;
             }
+            //Add a list node to the visited nodes list with the current node as an element
             visited.next=new ListNode(current);
             visited=visited.next;
             current=current.next;
@@ -216,11 +222,13 @@ public class IterativeListManipulator implements IListManipulator {
             return null;
         }
         boolean swapsMade=true;
-
+        //Run until no swaps are made
         while (swapsMade){
             swapsMade=false;
+            //Go to the start of the list
             ListNode current = head;
             while (current.next!=null) {
+                //If the node after the current node is larger than the current node, swap the node's elements
                 if (comparator.compare(current.element, current.next.element) > 0) {
                     Object temp = current.element;
                     current.element = current.next.element;
