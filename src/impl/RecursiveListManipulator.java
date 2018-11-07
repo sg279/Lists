@@ -17,9 +17,8 @@ public class RecursiveListManipulator implements IListManipulator {
 
     @Override
     public int size(ListNode head) {
-        int size = 0;
         if (head==null){
-            return size;
+            return 0;
         }
         else {
             return size(head.next)+1;
@@ -116,8 +115,7 @@ public class RecursiveListManipulator implements IListManipulator {
         if(head==null){
             return null;
         }
-        ListNode newNode = new ListNode(head.element, head.next);
-        newNode.next = deepCopy(newNode.next);
+        ListNode newNode = new ListNode(head.element, deepCopy(head.next));
         return newNode;
     }
 
@@ -177,16 +175,16 @@ public class RecursiveListManipulator implements IListManipulator {
         return circular(start, head.next, visited);
     }
 
-    private boolean circular(ListNode start, ListNode head, Set visited){
-        if (head==null||visited.contains(head)){
+    private boolean circular(ListNode start, ListNode current, Set visited){
+        if (current==null||visited.contains(current)){
             return false;
         }
-        else if(head==start){
+        else if(current==start){
             return true;
         }
         else{
-            visited.add(head);
-            return circular(start, head.next, visited);
+            visited.add(current);
+            return circular(start, current.next, visited);
         }
     }
 

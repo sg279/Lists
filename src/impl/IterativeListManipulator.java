@@ -31,18 +31,14 @@ public class IterativeListManipulator implements IListManipulator {
 
     @Override
     public boolean contains(ListNode head, Object element) {
-        boolean containsElement = false;
         ListNode current = head;
         while (current!=null){
             if (current.element.equals(element)){
-                containsElement=true;
-                break;
+                return true;
             }
-            else{
-                current=current.next;
-            }
+            current=current.next;
         }
-        return containsElement;
+        return false;
     }
 
     @Override
@@ -107,19 +103,17 @@ public class IterativeListManipulator implements IListManipulator {
     public boolean deepEquals(ListNode head1, ListNode head2) {
         ListNode list1Current= head1;
         ListNode list2Current = head2;
-        Boolean deepEquals = true;
         while (list1Current!=null&&list2Current!=null){
             if(list1Current.element!=list2Current.element){
-                deepEquals=false;
-                break;
+                return false;
             }
             list1Current=list1Current.next;
             list2Current=list2Current.next;
         }
         if(list1Current!=null||list2Current!=null){
-            deepEquals=false;
+            return false;
         }
-        return deepEquals;
+        return true;
     }
 
     @Override
@@ -140,15 +134,12 @@ public class IterativeListManipulator implements IListManipulator {
 
     @Override
     public boolean containsDuplicates(ListNode head) {
-        ListNode current = head;
-        Set<Object> elements = new HashSet<>();
-        while (current!=null){
-            if (elements.contains(current.element)){
+        while (head!=null){
+            if (contains(head.next, head.element)){
                 return true;
             }
             else{
-                elements.add(current.element);
-                current=current.next;
+                head=head.next;
             }
         }
         return false;
@@ -187,36 +178,32 @@ public class IterativeListManipulator implements IListManipulator {
     @Override
     public boolean isCircular(ListNode head) {
         ListNode current = head;
-        boolean isCircular = false;
         Set<ListNode> visited = new HashSet<>();
         while(current!=null){
             if(current.next==head){
-                isCircular=true;
-                break;
+                return true;
             }
             if(visited.contains(current.next)){
-                break;
+                return false;
             }
             visited.add(current);
             current=current.next;
         }
-        return isCircular;
+        return false;
     }
 
     @Override
     public boolean containsCycles(ListNode head) {
         ListNode current = head;
-        boolean containsCycles = false;
         Set<ListNode> visited = new HashSet<>();
         while(current!=null){
             if(visited.contains(current.next)){
-                containsCycles=true;
-                break;
+                return true;
             }
             visited.add(current);
             current=current.next;
         }
-        return containsCycles;
+        return false;
     }
 
     @Override
@@ -245,12 +232,7 @@ public class IterativeListManipulator implements IListManipulator {
     @Override
     public ListNode map(ListNode head, ITransformation transformation) {
         ListNode current = head;
-        Set<ListNode> visited = new HashSet<>();
         while(current!=null){
-            if(visited.contains(current)){
-                break;
-            }
-            visited.add(current);
             current.element=transformation.transform(current.element);
             current=current.next;
         }
@@ -260,17 +242,11 @@ public class IterativeListManipulator implements IListManipulator {
     @Override
     public Object reduce(ListNode head, IOperator operator, Object initial) {
         ListNode current = head;
-        Object reduction = initial;
-        Set<ListNode> visited = new HashSet<>();
         while(current!=null){
-            if(visited.contains(current)){
-                return reduction;
-            }
-            visited.add(current);
-            reduction = operator.operate(reduction, current.element);
+            initial = operator.operate(initial, current.element);
             current=current.next;
         }
-        return reduction;
+        return initial;
     }
 
 }
