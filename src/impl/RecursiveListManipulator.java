@@ -170,40 +170,40 @@ public class RecursiveListManipulator implements IListManipulator {
         if (head==null){
             return false;
         }
-        Set<ListNode> visited = new HashSet<>();
         ListNode start = head;
-        return circular(start, head.next, visited);
+        ListNode visited = new ListNode(head);
+        return circular(start, head.next, visited, visited);
     }
 
-    private boolean circular(ListNode start, ListNode current, Set visited){
-        if (current==null||visited.contains(current)){
-            return false;
-        }
-        else if(current==start){
+    private boolean circular(ListNode start, ListNode current, ListNode visitedHead, ListNode visited){
+        if(current==start){
             return true;
         }
+        else if (current==null||contains(visitedHead, current)){
+            return false;
+        }
         else{
-            visited.add(current);
-            return circular(start, current.next, visited);
+            visited.next = new ListNode(current);
+            return circular(start, current.next, visitedHead, visited.next);
         }
     }
 
     @Override
     public boolean containsCycles(ListNode head) {
-        Set visited = new HashSet();
-        return cycle(head, visited);
+        ListNode visited = new ListNode(head);
+        return cycle(head, visited, visited);
     }
 
-    private boolean cycle(ListNode head, Set visited){
+    private boolean cycle(ListNode head, ListNode visitedHead, ListNode visited){
         if (head==null){
             return false;
         }
-        else if(visited.contains(head)){
+        else if(contains(visitedHead, head.next)){
             return true;
         }
         else{
-            visited.add(head);
-            return cycle(head.next, visited);
+            visited.next = new ListNode(head);
+            return cycle(head.next, visitedHead, visited.next);
         }
     }
 

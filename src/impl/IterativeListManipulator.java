@@ -178,15 +178,17 @@ public class IterativeListManipulator implements IListManipulator {
     @Override
     public boolean isCircular(ListNode head) {
         ListNode current = head;
-        Set<ListNode> visited = new HashSet<>();
+        ListNode visitedHead = new ListNode(head);
+        ListNode visited = visitedHead;
         while(current!=null){
             if(current.next==head){
                 return true;
             }
-            if(visited.contains(current.next)){
+            if(contains(visitedHead, current.next)){
                 return false;
             }
-            visited.add(current);
+            visited.next=new ListNode(current);
+            visited=visited.next;
             current=current.next;
         }
         return false;
@@ -195,12 +197,14 @@ public class IterativeListManipulator implements IListManipulator {
     @Override
     public boolean containsCycles(ListNode head) {
         ListNode current = head;
-        Set<ListNode> visited = new HashSet<>();
+        ListNode visitedHead = new ListNode(head);
+        ListNode visited = visitedHead;
         while(current!=null){
-            if(visited.contains(current.next)){
+            if(contains(visitedHead, current.next)){
                 return true;
             }
-            visited.add(current);
+            visited.next=new ListNode(current);
+            visited=visited.next;
             current=current.next;
         }
         return false;
